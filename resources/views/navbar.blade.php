@@ -5,10 +5,20 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="#">Features</a>
-            <a class="nav-item nav-link" href="#">Pricing</a>
-            <a class="nav-item nav-link disabled" href="#">Disabled</a>
+            <a class="nav-item nav-link @if ($current=='index')
+            active
+            @endif" href="/menus/">Chech our Awesome Dishes</a>
+            <a class="nav-item nav-link @if ($current=='create')
+                active
+            @endif" href="/menus/create">Create a new Dish</a>
         </div>
     </div>
 </nav>
+
+<!-- Optimization-Refactor -->
+<!--
+    Instead of redirecting the user to a different page
+    once he click on one of the navigation items,
+    we could only the section shown on the screen with some js maniopulation.
+    To Be Seen Later
+ -->

@@ -23,11 +23,10 @@ Route::group(['prefix' => 'menus'], function () {
     Route::get('/create', [MenuController::class, 'create'])->name('menus.create');
     Route::post('/', [MenuController::class, 'store'])->name('menus.store');
     // Read Operation
-    Route::get('/', [MenuController::class, 'index'])->name('menus.show');
+    Route::get('/', [MenuController::class, 'index'])->name('menus.index');
     // Update Operation
     Route::get('/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');
     Route::put('/{menu}', [MenuController::class, 'update'])->name('menus.update');
     // Delete Operation
-    Route::get('/{menu}', [MenuController::class, 'show'])->name('menus.show');
     Route::delete('/{menu}', [MenuController::class, 'destroy'])->name('menus.delete');
 });

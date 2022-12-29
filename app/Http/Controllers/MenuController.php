@@ -12,12 +12,14 @@ class MenuController extends Controller
     public function index()
     {
         $menu_items = Menu::all();
-        return view('pages.menus.index');
+        $current = 'index';
+        return view('pages.menus.index', compact('current'));
     }
 
     public function edit(Request $request, Menu $menu)
     {
-        return view('pages.menus.edit', compact('menu'));
+        $current = 'update';
+        return view('pages.menus.edit', compact('menu', 'current'));
     }
 
     public function update(Request $request)
@@ -26,7 +28,8 @@ class MenuController extends Controller
 
     public function create()
     {
-        return view('pages.menus.create');
+        $current = 'create';
+        return view('pages.menus.create', compact('current'));
     }
 
     public function store(Request $request)
