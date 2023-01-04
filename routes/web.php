@@ -20,12 +20,10 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'menus'], function () {
     Route::get('/', [MenuController::class, 'index'])->name('menus.index');
-    Route::get('/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');
-    Route::put('/{menu}', [MenuController::class, 'update'])->name('menus.update');
-
+    Route::get('/{menu}', [MenuController::class, 'show'])->name('menus.show');
     Route::get('/create', [MenuController::class, 'create'])->name('menus.create');
     Route::post('/', [MenuController::class, 'store'])->name('menus.store');
-
-    Route::get('/{menu}', [MenuController::class, 'show'])->name('menus.show');
+    Route::get('/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');
+    Route::put('/{menu}', [MenuController::class, 'update'])->name('menus.update');
     Route::delete('/{menu}', [MenuController::class, 'destroy'])->name('menus.delete');
 });
