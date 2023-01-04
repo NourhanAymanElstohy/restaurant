@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -11,6 +11,16 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
+mix
+    // App styles & scripts
+    .js("resources/js/app.js", "public/js")
+    .js("resources/js/bootstrap.js", "public/js")
+    .sass("resources/sass/app.scss", "public/css")
+    // Menu Crud styles & scripts
+    // create
+    .js("resources/js/menus/create.js", "public/js/menus")
+    .css("resources/css/menus/create.css", "public/css/menus")
+    // edit
+    .js("resources/js/menus/edit.js", "public/js/menus")
+    .css("resources/css/menus/edit.css", "public/css/menus")
     .sourceMaps();

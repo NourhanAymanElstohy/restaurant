@@ -7,23 +7,28 @@ use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
-    protected $late = '';
 
     public function index()
     {
-        $menu_items = Menu::all();
+        $dishes = Menu::all();
         $current = 'index';
-        return view('pages.menus.index', compact('current'));
+        return view('pages.menus.index', compact('dishes', 'current'));
     }
 
     public function edit(Request $request, Menu $menu)
     {
         $current = 'update';
-        return view('pages.menus.edit', compact('menu', 'current'));
+        $dish = $menu;
+        return view('pages.menus.edit', compact('dish', 'current'));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, Menu $menu)
     {
+        $menu->name = $request->name;
+        $menu->duration = $request->duration;
+        $menu->save();
+        return redirect()->route('menus.index')
+            ->with('success', $menu->name . ' has been updated successfully');
     }
 
     public function create()
@@ -34,11 +39,18 @@ class MenuController extends Controller
 
     public function store(Request $request)
     {
-        // save db
+        // dd($request);
+        $menu = new Menu;
+        $menu->name = $request->name;
+        $menu->duration = $request->duration;
+        $menu->save();
+
+        return redirect()->route('menus.index')->with('success', $menu->name . ' has been added successfully');
     }
 
     public function destroy(Menu $menu)
     {
-        // delete record from db
+        $menu->delete();
+        return redirect()->route("menus.index")->with('success', 'Company has been deleted successfully');
     }
 }
