@@ -39,7 +39,6 @@ class MenuController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request);
         $menu = new Menu;
         $menu->name = $request->name;
         $menu->duration = $request->duration;

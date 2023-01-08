@@ -18,11 +18,11 @@ class ExampleTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_the_application_contains_symfony()
+    public function test_the_application_contains_laravel()
     {
         $response = $this->get('/');
 
-        $response->assertSee('Symfony');
+        $response->assertSee('Laravel');
         $response->assertStatus(200);
     }
 }
