@@ -1,0 +1,18 @@
+.active{
+    font-weight: bold;
+    color:white;
+}
+
+#header__sun, #header__moon, #header__indeterminate {
+    display: none;
+}
+ 
+html[color-theme="dark"] #header__moon {
+    display: block;
+}
+html[color-theme="light"] #header__sun {
+    display: block;
+}
+html[color-theme="system"] #header__indeterminate {
+    display: block;
+}

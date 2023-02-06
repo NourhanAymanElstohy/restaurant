@@ -2,33 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Menu;
+use App\Models\Dish;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class MenuController extends Controller
 {
 
     public function index()
     {
-        $dishes = Menu::all();
+        $dishes = Dish::latest()->get();
         $current = 'index';
         return view('pages.menus.index', compact('dishes', 'current'));
-    }
-
-    public function edit(Request $request, Menu $menu)
-    {
-        $current = 'update';
-        $dish = $menu;
-        return view('pages.menus.edit', compact('dish', 'current'));
-    }
-
-    public function update(Request $request, Menu $menu)
-    {
-        $menu->name = $request->name;
-        $menu->duration = $request->duration;
-        $menu->save();
-        return redirect()->route('menus.index')
-            ->with('success', $menu->name . ' has been updated successfully');
     }
 
     public function create()
@@ -39,18 +24,65 @@ class MenuController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request);
-        $menu = new Menu;
-        $menu->name = $request->name;
-        $menu->duration = $request->duration;
-        $menu->save();
+        $formFields = $request->validate([
+            'name' => ['required', 'min:3', Rule::unique('dishes', 'name')],
+            'description' => 'required', 'min:3',
+            'duration' => ['required', 'numeric'],
+        ]);
 
-        return redirect()->route('menus.index')->with('success', $menu->name . ' has been added successfully');
+        if ($request->hasFile('image')) {
+            $fileName = preg_replace("/[(\.)(\s)]/", "", $formFields['name']);
+            $fileType = $request->file('image')->getClientOriginalExtension();
+            $formFields['image'] = $request->file('image')->storeAs('dishes', $fileName . '.' . $fileType, 'public');
+        }
+        Dish::create($formFields);
+
+        return redirect()->route('manage-dishes')->with('success', $formFields['name'] . ' has been added successfully');
     }
 
-    public function destroy(Menu $menu)
+    public function edit(Request $request, Dish $dish)
     {
-        $menu->delete();
-        return redirect()->route("menus.index")->with('success', 'Company has been deleted successfully');
+        $current = 'update';
+        return view('pages.menus.edit', compact('dish', 'current'));
+    }
+
+    public function update(Request $request, Dish $dish)
+    {
+        $formFields = $request->validate([
+            'name' => ['required', 'min:3'],
+            'description' => 'required',
+            'duration' => ['required', 'numeric'],
+        ]);
+
+        if ($request->hasFile('image')) {
+            $fileName = preg_replace("/[(\.)(\s)]/", "", $formFields['name']);
+            $fileType = $request->file('image')->getClientOriginalExtension();
+            $formFields['image'] = $request->file('image')->storeAs('dishes', $fileName . '.' . $fileType, 'public');
+        }
+
+        $dish->update($formFields);
+
+        return redirect()->route('get-dishes')
+            ->with('success', $dish->name . ' has been updated successfully');
+    }
+
+    public function destroy(Dish $dish)
+    {
+        $dish->delete();
+        return redirect()->route("manage-dishes")->with('success', $dish->name . ' has been deleted successfully');
+    }
+
+    public function show(Dish $dish)
+    {
+        return view(menus . show, [
+            'currnet' => 'manage',
+            'dish' => $dish,
+        ]);
+    }
+
+    public function manage()
+    {
+        $dishes = Dish::latest()->filter(request(['tag', 'search']))->get();
+        return view('pages.menus.manage', ['current' => 'manage', 'dishes' => $dishes]);
     }
 }
