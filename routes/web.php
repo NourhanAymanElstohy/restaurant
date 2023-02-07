@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
+use App\Services\MapboxGeocoding;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,5 +45,8 @@ Route::group(['prefix' => 'menus'], function () {
 });
 
 Route::get('/', function () {
-    dd(auth(), auth()->guard());
+    $mapbox = new MapboxGeocoding();
+    // dd("as");
+    // dd(auth(), auth()->guard());
+    dd($mapbox->geocoding('cairo'));
 });
