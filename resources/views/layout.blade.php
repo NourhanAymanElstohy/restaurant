@@ -13,7 +13,7 @@
 
 <body>
     <!-- Page Navbar -->
-    @include('navbar')
+    @include('partials._navbar')
 
     <div class="container">
         <!-- Notification & Alerts -->

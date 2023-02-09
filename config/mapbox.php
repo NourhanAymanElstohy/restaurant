@@ -1,3 +1,3 @@
 <?php
 
-return ['api_key' => env('MAPBOX_API')];
+return ['apikey' => env('MAPBOX_APIKEY')];

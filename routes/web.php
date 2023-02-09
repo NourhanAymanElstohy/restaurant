@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
-use App\Services\MapboxGeocoding;
+use App\Services\Mapbox\MapboxGeocoding;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,7 +25,6 @@ Route::group(['prefix' => 'users'], function () {
     Route::post('/logout', [UserController::class, 'logout'])->name('logout')->middleware('auth');
     Route::get('/login', [UserController::class, 'login'])->name('login');
     Route::post('/', [UserController::class, 'store']);
-
 });
 Route::group(['prefix' => 'menus'], function () {
     // Create a Dish
@@ -46,7 +45,13 @@ Route::group(['prefix' => 'menus'], function () {
 
 Route::get('/', function () {
     $mapbox = new MapboxGeocoding();
-    // dd("as");
-    // dd(auth(), auth()->guard());
-    dd($mapbox->geocoding('cairo'));
+
+    // Nasr City infomraiton from name
+    $nasrCity = $mapbox->forward('nasr city', ['language' => 'ar']);
+
+    // Nasr City infomraiton from coords
+    $nasrCityCoords = $nasrCity->center;
+    $nasrCityFromName = $mapbox->reverse($nasrCityCoords[1], $nasrCityCoords[0], ['language' => 'ar']);
+
+    dd($nasrCity, $nasrCityFromName);
 });
