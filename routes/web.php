@@ -46,3 +46,9 @@ Route::get('/', function () {
 
     // dd($nasrCity, $nasrCityFromName);
 });
+
+
+Route::get('sendemail', [MailController::class, 'sendEmail']);
+Route::get('sendbasicemail', [MailController::class, 'basic_email']);
+Route::get('sendhtmlemail', [MailController::class, 'html_email']);
+Route::get('sendattachmentemail', [MailController::class, 'attachment_email']);
