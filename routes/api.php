@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+// <--- Users --->
+// signup and login
+Route::group(['prefix' => 'users'], function () {
+    // Signup & Login
+    Route::post('/register', [UserController::class, 'register']);
+    Route::post('/login', [UserController::class, 'login']);
+    Route::post('/forgetPassword', [UserController::class, 'forgetPassword']);
+    // Protected Routes
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::post('/logout', [UserController::class, 'logout']);
+    });
 });

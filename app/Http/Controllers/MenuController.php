@@ -74,7 +74,7 @@ class MenuController extends Controller
 
     public function show(Dish $dish)
     {
-        return view(menus . show, [
+        return view('menus.show', [
             'currnet' => 'manage',
             'dish' => $dish,
         ]);

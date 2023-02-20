@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\MenuController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\MailController;
 use App\Services\Mapbox\MapboxGeocoding;
 use Illuminate\Support\Facades\Route;
 
@@ -16,16 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-// <--- Users --->
-Route::group(['prefix' => 'users'], function () {
-    // Show Register Form
-    Route::get('/register', [UserController::class, 'register'])->middleware('guest');
-    // Create a New User
-    Route::post('/authenticate', [UserController::class, 'authenticate']);
-    Route::post('/logout', [UserController::class, 'logout'])->name('logout')->middleware('auth');
-    Route::get('/login', [UserController::class, 'login'])->name('login');
-    Route::post('/', [UserController::class, 'store']);
-});
+
 Route::group(['prefix' => 'menus'], function () {
     // Create a Dish
     Route::get('/create', [MenuController::class, 'create'])->name('show-create-dish');
@@ -44,14 +35,14 @@ Route::group(['prefix' => 'menus'], function () {
 });
 
 Route::get('/', function () {
-    $mapbox = new MapboxGeocoding();
+    // $mapbox = new MapboxGeocoding();
 
-    // Nasr City infomraiton from name
-    $nasrCity = $mapbox->forward('nasr city', ['language' => 'ar']);
+    // // Nasr City infomraiton from name
+    // $nasrCity = $mapbox->forward('nasr city', ['language' => 'ar']);
 
-    // Nasr City infomraiton from coords
-    $nasrCityCoords = $nasrCity->center;
-    $nasrCityFromName = $mapbox->reverse($nasrCityCoords[1], $nasrCityCoords[0], ['language' => 'ar']);
+    // // Nasr City infomraiton from coords
+    // $nasrCityCoords = $nasrCity->center;
+    // $nasrCityFromName = $mapbox->reverse($nasrCityCoords[1], $nasrCityCoords[0], ['language' => 'ar']);
 
-    dd($nasrCity, $nasrCityFromName);
+    // dd($nasrCity, $nasrCityFromName);
 });
